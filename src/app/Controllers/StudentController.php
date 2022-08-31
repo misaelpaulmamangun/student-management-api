@@ -113,7 +113,7 @@ class StudentController extends Controller
     }
   }
 
-  public function delete($req, $res, $args)
+  public function delete($req, $res)
   {
     $sql = "
       DELETE FROM
@@ -125,11 +125,46 @@ class StudentController extends Controller
     $stmt = $this->c->db->prepare($sql);
 
     $stmt->execute([
-      'id' => $req->getParam('id')
+      ':id' => $req->getParam('id')
     ]);
 
     $data = [
       'status' => true,
+      'status' => 200
+    ];
+
+    return $res->withJSON($data);
+  }
+
+  public function update($req, $res)
+  {
+    $sql = "
+      UPDATE 
+        student
+      SET (
+        first_name = :first_name,
+        last_name = :last_name,
+        age = :age,
+        year_id = :year_id,
+        course_id = :course_id
+      )
+      WHERE
+        id = :id
+    ";
+
+    $stmt = $this->c->db->prepare($sql);
+
+    $stmt->execute([
+      ':id' => $req->getParam('id'),
+      ':first_name' => $req->getParam('first_name'),
+      ':last_name' => $req->getParam('last_name'),
+      ':age' => $req->getParam('age'),
+      ':year_id' => $req->getParam('year_id'),
+      ':course_id' => $req->getParam('course_id')
+    ]);
+
+    $data = [
+      'success' => true,
       'status' => 200
     ];
 
