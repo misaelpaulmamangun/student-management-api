@@ -11,7 +11,7 @@ class AuthHelper
    */
   public function is_email(string $email)
   {
-    return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
+    return (filter_var($email, FILTER_VALIDATE_EMAIL));
   }
 
   /**
@@ -22,7 +22,7 @@ class AuthHelper
    */
   public function confirm_password(string $password, string $confirmPassword)
   {
-    return $password == $confirmPassword ? true : false;
+    return $password == $confirmPassword;
   }
 
   /**
@@ -33,6 +33,6 @@ class AuthHelper
    */
   public function password_length(int $length, string $password)
   {
-    return strlen($password) >= $length ? true : false;
+    return strlen($password) >= $length;
   }
 }
