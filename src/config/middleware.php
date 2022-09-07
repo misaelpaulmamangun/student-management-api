@@ -13,6 +13,7 @@ $app->add(function ($req, $res, $next) {
 
 $app->add(new Tuupola\Middleware\JwtAuthentication([
 	"path" => "/api",
+	"secure" => false,
 	"secret" => $container['settings']['jwt']['key'],
 	"error" => function ($res, $args) {
 		return $res->withJSON([
