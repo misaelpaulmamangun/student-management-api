@@ -7,7 +7,7 @@ use PDOException;
 
 class StudentController extends Controller
 {
-  public function index($req, $res)
+  public function index($request, $response)
   {
     $sql = "
       SELECT 
@@ -26,13 +26,13 @@ class StudentController extends Controller
 
     $data = $this->c->db->query($sql)->fetchAll(PDO::FETCH_OBJ);
 
-    return $res->withJSON([
+    return $response->withJSON([
       'data' => $data,
       'success' => $data ? true : false,
     ]);
   }
 
-  public function single($req, $res, $args)
+  public function single($request, $response, $args)
   {
     $sql = "
       SELECT 
@@ -58,13 +58,13 @@ class StudentController extends Controller
 
     $data = $stmt->fetch(PDO::FETCH_OBJ);
 
-    return $res->withJSON([
+    return $response->withJSON([
       'data' => $data,
       'success' => $data ? true : false
     ]);
   }
 
-  public function create($req, $res)
+  public function create($request, $response)
   {
     try {
       $sql = "
@@ -88,11 +88,11 @@ class StudentController extends Controller
       $stmt = $this->c->db->prepare($sql);
 
       $stmt->execute([
-        ':first_name' => $req->getParam('first_name'),
-        ':last_name' => $req->getParam('last_name'),
-        ':age' => $req->getParam('age'),
-        ':year_id' => $req->getParam('year_id'),
-        ':course_id' => $req->getParam('course_id'),
+        ':first_name' => $request->getParam('first_name'),
+        ':last_name' => $request->getParam('last_name'),
+        ':age' => $request->getParam('age'),
+        ':year_id' => $request->getParam('year_id'),
+        ':course_id' => $request->getParam('course_id'),
         ':created_at' => date('Y-m-d H:i:s'),
       ]);
 
@@ -101,7 +101,7 @@ class StudentController extends Controller
         'status' => 200
       ];
 
-      return $res->withJSON($data);
+      return $response->withJSON($data);
     } catch (PDOException $e) {
       $data = [
         'message' => $e->getMessage(),
@@ -109,11 +109,11 @@ class StudentController extends Controller
         'status' => 500
       ];
 
-      return $res->withJSON($data);
+      return $response->withJSON($data);
     }
   }
 
-  public function delete($req, $res)
+  public function delete($request, $response)
   {
     $sql = "
       DELETE FROM
@@ -125,7 +125,7 @@ class StudentController extends Controller
     $stmt = $this->c->db->prepare($sql);
 
     $stmt->execute([
-      ':id' => $req->getParam('id')
+      ':id' => $request->getParam('id')
     ]);
 
     $data = [
@@ -133,10 +133,10 @@ class StudentController extends Controller
       'status' => 200
     ];
 
-    return $res->withJSON($data);
+    return $response->withJSON($data);
   }
 
-  public function update($req, $res)
+  public function update($request, $response)
   {
     $sql = "
       UPDATE 
@@ -155,12 +155,12 @@ class StudentController extends Controller
     $stmt = $this->c->db->prepare($sql);
 
     $stmt->execute([
-      ':id' => $req->getParam('id'),
-      ':first_name' => $req->getParam('first_name'),
-      ':last_name' => $req->getParam('last_name'),
-      ':age' => $req->getParam('age'),
-      ':year_id' => $req->getParam('year_id'),
-      ':course_id' => $req->getParam('course_id')
+      ':id' => $request->getParam('id'),
+      ':first_name' => $request->getParam('first_name'),
+      ':last_name' => $request->getParam('last_name'),
+      ':age' => $request->getParam('age'),
+      ':year_id' => $request->getParam('year_id'),
+      ':course_id' => $request->getParam('course_id')
     ]);
 
     $data = [
@@ -168,6 +168,6 @@ class StudentController extends Controller
       'status' => 200
     ];
 
-    return $res->withJSON($data);
+    return $response->withJSON($data);
   }
 }
