@@ -9,16 +9,18 @@ $app->post('/register', AuthController::class . ':register');
 
 $app->group('/api', function () use ($app) {
   // Students Route
-  $app->get('/students', StudentController::class . ':index');
-  $app->get('/students/{id}', StudentController::class . ':single');
-  $app->post('/students', StudentController::class . ':create');
-  $app->delete('/students', StudentController::class . ':delete');
-  $app->put('/students', StudentController::class . ':update');
+  $student = '/student';
+  $app->get($student, StudentController::class . ':index');
+  $app->get($student . '/{id}', StudentController::class . ':single');
+  $app->post($student, StudentController::class . ':create');
+  $app->delete($student, StudentController::class . ':delete');
+  $app->put($student, StudentController::class . ':update');
 
   // Course Route
-  $app->get('/course', CourseController::class . ':index');
-  $app->get('/course/{id}', CourseController::class . ':single');
-  $app->post('/course', CourseController::class . ':create');
-  $app->delete('/course', CourseController::class . ':delete');
-  $app->put('/course', CourseController::class . ':update');
+  $course = '/course';
+  $app->get($course, CourseController::class . ':index');
+  $app->get($course . '/{id}', CourseController::class . ':single');
+  $app->post($course, CourseController::class . ':create');
+  $app->delete($course, CourseController::class . ':delete');
+  $app->put($course, CourseController::class . ':update');
 });
